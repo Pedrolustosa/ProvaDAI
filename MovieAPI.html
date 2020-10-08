@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <title>Busca de Filmes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="jumbotron text-center">
+        <h1>Busca de Filmes</h1>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form>
+                        <input id="nameMovie" class="form-control" type="text" placeholder="Digite o nome do filme...">
+                        <br />
+                        <a class="btn btn-primary"
+                            onclick="searchMovies(document.getElementById('nameMovie').value)">Buscar</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 id='title'></h3>
+                <p id='description'></p>
+                <p id='imdb'></p>
+                <img id="my_image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <script>
+        function searchMovies(movie) {
+            $('#title').empty();
+            $('#description').empty();
+            $('#imdb').empty();
+            $("#my_image").empty();
+
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://www.omdbapi.com/?t=" + movie + "&apikey=1993e977",
+                "method": "GET"
+            }
+
+            $.ajax(settings).done(function (response) {
+                console.log(response);
+                $('#title').append(response.Title + "(" + response.Year + ")");
+                $("#my_image").attr("src", response.Poster);
+                $('#description').append(response.Plot);
+                $('#imdb').append("IMDB: " + response.imdbRating);
+            });
+
+        }
+    </script>
+</body>
+
+</html>
